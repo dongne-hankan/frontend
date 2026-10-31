@@ -1,0 +1,21 @@
+:root {
+  font-family: system-ui, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  line-height: 1.5;
+  color: #1f2328;
+  background: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  min-height: 100svh;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+}
