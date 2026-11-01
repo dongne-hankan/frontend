@@ -25,10 +25,10 @@ src
 ├── app        라우터, 쿼리 클라이언트
 ├── pages      라우트별 화면
 ├── features
-│   ├── find     찾기, 추천 결과 (Frontend A)
-│   ├── course   코스 상세, 지도, 길찾기 (Frontend B)
-│   ├── auth     로그인, 온보딩 (Frontend C)
-│   └── my       나의 동네 한 칸 (Frontend C)
+│   ├── find     찾기, 추천 결과
+│   ├── course   코스 상세, 지도, 길찾기
+│   ├── auth     로그인, 온보딩
+│   └── my       나의 동네 한 칸
 └── shared     공통 API 클라이언트(api), 공통 컴포넌트(ui), 유틸(lib)
 ```
 
@@ -39,10 +39,15 @@ src
 | 경로 | 화면 |
 | --- | --- |
 | `/` | 오늘의 동네 찾기 |
+| `/recommendations` | 추천 코스 목록 |
 | `/courses/:courseId` | 코스 상세 |
+| `/courses/:courseId/record` | 다녀옴·느낌 기록 |
 | `/places/:placeId` | 장소·주민 이야기 |
 | `/my` | 나의 동네 한 칸 |
+| `/my/settings` | 내 정보, 로그아웃, 탈퇴 |
+| `/my/records/:recordId/edit` | 기록 수정 |
 | `/login` | 로그인 |
+| `/signup` | 개인정보 수집·이용 동의 |
 | `/oauth/kakao` | 카카오 로그인 리다이렉트 |
 
 ## API 규칙
@@ -54,8 +59,7 @@ src
 
 ## 남은 일
 
-- 토큰 저장, 인증 헤더, 토큰 재발급 (`shared/api/client.ts`의 TODO)
-- 화면 구현, 카카오맵 연동
+- 카카오맵 연동
 
 ## 문서
 
