@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useCourse } from '../features/course/api/courseApi'
+import CourseMap from '../features/course/components/CourseMap'
 import ResidentStory from '../features/course/components/ResidentStory'
 import StopList from '../features/course/components/StopList'
 import { useSaveCourse, useUnsaveCourse } from '../features/my/api/myApi'
@@ -85,7 +86,7 @@ function CourseDetailPage() {
             {saveCourse.error && <p className="notice">{errorMessage(saveCourse.error)}</p>}
 
             <StopList stops={course.stops} storyOrder={story?.order} />
-            <p className="map-fallback">지도는 준비 중이에요. 장소 목록과 길찾기로 확인해 주세요.</p>
+            <CourseMap stops={course.stops} />
           </>
         )}
       </div>

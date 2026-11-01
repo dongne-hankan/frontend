@@ -691,3 +691,49 @@ input:focus-visible {
   flex: none;
   padding-bottom: 0;
 }
+
+.course-map {
+  height: 220px;
+  margin-top: 18px;
+  overflow: hidden;
+  border-radius: 11px;
+  background: var(--soft);
+}
+
+.map-pin {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--green);
+  font-size: 12px;
+  color: #fff;
+  box-shadow: 0 1px 4px #0000004d;
+}
+
+.map-selected {
+  margin-top: 10px;
+  padding: 13px 15px;
+  border-radius: 9px;
+  background: var(--soft);
+  font-size: 12px;
+}
+
+.map-selected strong {
+  font-weight: 600;
+}
+
+.map-selected p {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--sub);
+}
+
+.map-retry {
+  display: block;
+  margin-top: 4px;
+}

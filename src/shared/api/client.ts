@@ -63,13 +63,26 @@ async function refreshAccessToken() {
 
 type RetryableConfig = InternalAxiosRequestConfig & { retried?: boolean }
 
+function goToLogin() {
+  tokenStore.clear()
+  const { pathname, search } = window.location
+  window.location.assign(`/login?next=${encodeURIComponent(pathname + search)}`)
+}
+
 apiClient.interceptors.response.use(undefined, async (error: AxiosError<ApiError>) => {
+  if (error.response?.data?.code === 'AUTH_REQUIRED') {
+    goToLogin()
+    throw error
+  }
   const config = error.config as RetryableConfig | undefined
   if (error.response?.data?.code !== 'AUTH_TOKEN_EXPIRED' || !config || config.retried) {
     throw error
   }
   config.retried = true
-  const accessToken = await sharedRefresh()
+  const accessToken = await sharedRefresh().catch((refreshError: unknown) => {
+    goToLogin()
+    throw refreshError
+  })
   config.headers.Authorization = `Bearer ${accessToken}`
   return apiClient(config)
 })
