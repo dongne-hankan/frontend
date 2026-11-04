@@ -478,6 +478,10 @@ input:focus-visible {
   color: #191919;
 }
 
+.kakao.spaced {
+  margin-top: 10px;
+}
+
 .kakao:disabled {
   opacity: 0.6;
   cursor: default;
@@ -736,4 +740,29 @@ input:focus-visible {
 .map-retry {
   display: block;
   margin-top: 4px;
+}
+
+.auth-form {
+  display: contents;
+}
+
+.input-status {
+  min-height: 18px;
+  margin: 6px 0 12px;
+  font-size: 11px;
+  color: var(--sub);
+}
+
+.input-status a,
+.text-link-row a {
+  color: var(--green);
+  text-decoration: underline;
+}
+
+.text-link-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 20px;
+  font-size: 12px;
 }

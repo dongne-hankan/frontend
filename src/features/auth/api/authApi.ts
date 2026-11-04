@@ -43,6 +43,26 @@ export function signup(signupToken: string, nickname: string) {
   return postData<Tokens>('/api/auth/signup', { signupToken, privacyAgreed: true, nickname })
 }
 
+export function checkEmailAvailability(email: string) {
+  return getData<{ available: boolean }>('/api/auth/email-availability', { email })
+}
+
+export function signupWithEmail(email: string, password: string, nickname: string) {
+  return postData<Tokens>('/api/auth/email/signup', { email, password, nickname, privacyAgreed: true })
+}
+
+export function login(email: string, password: string) {
+  return postData<Tokens>('/api/auth/login', { email, password })
+}
+
+export async function requestPasswordReset(email: string) {
+  await apiClient.post('/api/auth/password-reset/request', { email })
+}
+
+export async function confirmPasswordReset(token: string, newPassword: string) {
+  await apiClient.post('/api/auth/password-reset/confirm', { token, newPassword })
+}
+
 export function useMyInfo() {
   return useQuery({
     queryKey: ['users', 'me'],
