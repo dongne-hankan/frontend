@@ -737,3 +737,69 @@ input:focus-visible {
   display: block;
   margin-top: 4px;
 }
+
+.map-stage {
+  position: relative;
+}
+
+.nearby-map {
+  height: 46svh;
+  min-height: 260px;
+  background: var(--soft);
+}
+
+.map-locate {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  min-height: 36px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  font-size: 11px;
+  color: var(--green);
+  box-shadow: 0 1px 4px #00000026;
+}
+
+.map-point {
+  padding: 4px 8px;
+  border: 2px solid var(--green);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+  box-shadow: 0 1px 4px #0000004d;
+}
+
+div.map-pin {
+  pointer-events: none;
+}
+
+.map-guide {
+  margin: 16px 0 0;
+}
+
+.ai-badge {
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--soft);
+  font-size: 10px;
+  color: var(--green);
+}
+
+.course-select {
+  width: 100%;
+  background: #fff;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.course-select[aria-pressed='true'] {
+  border-color: #becdbd;
+  background: var(--soft);
+}

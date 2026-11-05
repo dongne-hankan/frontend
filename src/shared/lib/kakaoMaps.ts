@@ -1,15 +1,21 @@
 export interface LatLng {
-  readonly brand?: 'LatLng'
+  getLat(): number
+  getLng(): number
 }
 
 export interface KakaoMap {
   setBounds(bounds: LatLngBounds): void
   setCenter(position: LatLng): void
   setLevel(level: number): void
+  panTo(position: LatLng): void
 }
 
 export interface LatLngBounds {
   extend(position: LatLng): void
+}
+
+export interface CustomOverlay {
+  setMap(map: KakaoMap | null): void
 }
 
 export interface KakaoMaps {
@@ -22,7 +28,10 @@ export interface KakaoMaps {
     position: LatLng
     content: HTMLElement
     yAnchor: number
-  }) => unknown
+  }) => CustomOverlay
+  event: {
+    addListener(target: KakaoMap, type: 'click', handler: (event: { latLng: LatLng }) => void): void
+  }
 }
 
 declare global {
