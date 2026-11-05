@@ -803,3 +803,6 @@ div.map-pin {
   border-color: #becdbd;
   background: var(--soft);
 }
+
+.ai-reason { margin-top: 16px; padding-top: 12px; border-top: 1px solid #e5e7eb; }
+.ai-reason p { margin: 8px 0 0; line-height: 1.6; }

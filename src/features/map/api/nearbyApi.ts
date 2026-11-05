@@ -38,10 +38,11 @@ export interface NearbyRecommendation {
   courses: NearbyCourse[]
   aiGenerated: boolean
   message: string | null
+  demo?: boolean
 }
 
-// TODO: 백엔드 주변 산책 추천 API가 나오면 .env에 VITE_USE_NEARBY_MOCK=false를 넣거나 이 분기를 지운다.
-const useMock = import.meta.env.VITE_USE_NEARBY_MOCK !== 'false'
+// 실제 백엔드가 기본이다. 화면 시연은 명시적으로 true를 설정한 경우에만 쓴다.
+const useMock = import.meta.env.VITE_USE_NEARBY_MOCK === 'true'
 
 function mockStop(center: Point, order: number, latOffset: number, lngOffset: number): NearbyStop {
   return {
@@ -73,8 +74,9 @@ function mockRecommendation(request: NearbyRequest): Promise<NearbyRecommendatio
         resolve({
           center,
           courses: [course('예시 코스 A', 0.002), course('예시 코스 B', 0.004)],
-          aiGenerated: true,
-          message: null,
+          aiGenerated: false,
+          demo: true,
+          message: '데모 모드: 가상 장소와 좌표로 구성한 예시이며 실제 AI를 호출하지 않았어요.',
         }),
       700,
     ),

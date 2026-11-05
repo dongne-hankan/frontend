@@ -112,7 +112,7 @@ function MapHomePage() {
           onChange={(event) => setMood(event.target.value)}
         />
 
-        {recommendation.isPending && <p className="state">AI가 주변을 살펴보고 있어요.</p>}
+        {recommendation.isPending && <p className="state">주변 산책 코스를 찾고 있어요.</p>}
         {recommendation.error && <p className="notice">{errorMessage(recommendation.error)}</p>}
         {recommendation.data?.message && <p className="notice">{recommendation.data.message}</p>}
 
@@ -120,7 +120,13 @@ function MapHomePage() {
           <section className="section">
             <div className="label-row">
               <h3>추천 코스</h3>
-              {recommendation.data?.aiGenerated && <span className="ai-badge">AI가 추천했어요</span>}
+              {recommendation.data?.demo ? (
+                <span className="ai-badge">가상 데이터 데모</span>
+              ) : recommendation.data?.aiGenerated ? (
+                <span className="ai-badge">AI가 추천했어요</span>
+              ) : (
+                <span className="small-label">거리 기준 기본 추천</span>
+              )}
             </div>
             {courses.map((course, index) => (
               <button

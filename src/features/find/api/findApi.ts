@@ -40,6 +40,12 @@ export interface Recommendation {
   personalization: { applied: boolean; message: string | null }
 }
 
+export interface AiRecommendation {
+  recommendation: Recommendation
+  reasons: { courseId: number; reason: string }[]
+  aiGenerated: boolean
+}
+
 export function useFindOptions() {
   return useQuery({
     queryKey: ['find', 'options'],
@@ -50,12 +56,15 @@ export function useFindOptions() {
 
 export function useRecommendations(condition: Condition | null, seenCourseIds: number[]) {
   return useQuery({
-    queryKey: ['find', 'recommendations', condition, seenCourseIds],
+    queryKey: ['find', 'ai-recommendations', condition, seenCourseIds],
     queryFn: () =>
-      getData<Recommendation>('/api/find/recommendations', {
+      getData<AiRecommendation>('/api/find/ai-recommendations', {
         ...condition,
         excludeCourseIds: seenCourseIds.length > 0 ? seenCourseIds.join(',') : undefined,
       }),
     enabled: condition !== null,
+    staleTime: 30_000,
+    refetchOnWindowFocus: false,
+    retry: false,
   })
 }
