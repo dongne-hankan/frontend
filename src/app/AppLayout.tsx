@@ -13,6 +13,12 @@ function AppLayout() {
           </span>
           동네 찾기
         </NavLink>
+        <NavLink to="/map">
+          <span className="nav-mark" aria-hidden="true">
+            ◎
+          </span>
+          주변 산책
+        </NavLink>
         <NavLink to="/my">
           <span className="nav-mark" aria-hidden="true">
             ▱

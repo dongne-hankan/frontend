@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { loadKakaoMaps, type KakaoMap, type KakaoMaps } from '../../../shared/lib/kakaoMaps'
-import type { NearbyStop, Point } from '../api/nearbyApi'
-
-// 대구시청 주변. 위치를 고르기 전 처음 보여줄 곳이다.
-const DEFAULT_CENTER: Point = { lat: 35.8714, lng: 128.6014 }
+import { DEFAULT_CENTER, type NearbyStop, type Point } from '../api/nearbyApi'
 const DEFAULT_LEVEL = 5
 
 interface LoadedMap {
@@ -29,13 +26,18 @@ function NearbyMap({
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const onSelectRef = useRef(onSelectPoint)
-  const initialPointRef = useRef(point)
+  const pointRef = useRef(point)
   const [loaded, setLoaded] = useState<LoadedMap>()
   const [failed, setFailed] = useState(false)
+  const [attempt, setAttempt] = useState(0)
 
   useEffect(() => {
     onSelectRef.current = onSelectPoint
   })
+
+  useEffect(() => {
+    pointRef.current = point
+  }, [point])
 
   // 지도는 한 번만 만들고, 위치와 장소는 아래 effect에서 갱신한다.
   useEffect(() => {
@@ -49,7 +51,7 @@ function NearbyMap({
         if (cancelled) {
           return
         }
-        const start = initialPointRef.current ?? DEFAULT_CENTER
+        const start = pointRef.current ?? DEFAULT_CENTER
         const map = new maps.Map(container, {
           center: new maps.LatLng(start.lat, start.lng),
           level: DEFAULT_LEVEL,
@@ -66,9 +68,10 @@ function NearbyMap({
       })
     return () => {
       cancelled = true
+      setLoaded(undefined)
       container.replaceChildren()
     }
-  }, [])
+  }, [attempt])
 
   useEffect(() => {
     if (!loaded || !point) {
@@ -100,7 +103,21 @@ function NearbyMap({
   }, [loaded, stops, point])
 
   if (failed) {
-    return <div className="map-fallback">지도를 불러오지 못했어요. 새로고침해 주세요.</div>
+    return (
+      <div className="map-fallback nearby-map">
+        지도를 불러오지 못했어요. 위 검색창이나 ‘내 위치’ 버튼으로 출발할 곳을 정할 수 있어요.
+        <button
+          type="button"
+          className="text-button map-retry"
+          onClick={() => {
+            setFailed(false)
+            setAttempt(attempt + 1)
+          }}
+        >
+          다시 시도
+        </button>
+      </div>
+    )
   }
   return <div ref={containerRef} className="nearby-map" role="region" aria-label="출발할 위치를 고르는 지도" />
 }

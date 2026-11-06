@@ -2,7 +2,7 @@
   --paper: #fff;
   --bg: #f1f2ef;
   --ink: #262c28;
-  --sub: #777e78;
+  --sub: #5f6660;
   --green: #315442;
   --soft: #f2f5f0;
   --line: #e3e8e1;
@@ -88,13 +88,13 @@ input:focus-visible {
   padding: 0;
   border: 0;
   background: none;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--sub);
 }
 
 .small-label {
   margin: 0 0 9px;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--sub);
 }
 
@@ -117,7 +117,7 @@ input:focus-visible {
 
 .screen-intro > p:last-child {
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
   color: var(--sub);
 }
@@ -125,7 +125,7 @@ input:focus-visible {
 .field-label {
   display: block;
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -139,7 +139,7 @@ input:focus-visible {
 
 .label-row h3 {
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -149,7 +149,7 @@ input:focus-visible {
   padding: 12px;
   border: 1px solid var(--line);
   background: #fff;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .options {
@@ -164,7 +164,7 @@ input:focus-visible {
   border: 1px solid var(--line);
   border-radius: 7px;
   background: #fff;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--sub);
 }
 
@@ -180,7 +180,7 @@ input:focus-visible {
   justify-content: space-between;
   gap: 14px;
   margin-top: 20px;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--sub);
 }
 
@@ -190,7 +190,7 @@ input:focus-visible {
   border: 0;
   border-radius: 6px;
   background: var(--soft);
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .feeling-box {
@@ -201,7 +201,7 @@ input:focus-visible {
 
 .feeling-box p {
   margin: 8px 0;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.9;
   color: var(--sub);
 }
@@ -224,7 +224,7 @@ input:focus-visible {
   border: 0;
   border-radius: 9px;
   background: var(--green);
-  font-size: 13px;
+  font-size: 15px;
   color: #fff;
 }
 
@@ -241,7 +241,7 @@ input:focus-visible {
   border: 1px solid var(--line);
   border-radius: 9px;
   background: #fff;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
   color: var(--green);
 }
@@ -261,10 +261,10 @@ input:focus-visible {
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  min-width: 90px;
-  padding: 4px 10px;
-  font-size: 10px;
-  color: #929a93;
+  min-width: 76px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #737b74;
 }
 
 .bottom-nav a.active {
@@ -285,13 +285,13 @@ input:focus-visible {
 }
 
 .course > span {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--green);
 }
 
 .course h3 {
   margin: 8px 0 5px;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 500;
   line-height: 1.6;
   letter-spacing: -0.5px;
@@ -299,7 +299,7 @@ input:focus-visible {
 
 .course-desc {
   margin: 0;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.8;
   color: var(--sub);
 }
@@ -308,9 +308,9 @@ input:focus-visible {
   margin: 13px 0 0;
   padding-top: 13px;
   border-top: 1px solid var(--line);
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.8;
-  color: #6b766c;
+  color: #56615a;
 }
 
 .course-meta {
@@ -318,7 +318,7 @@ input:focus-visible {
   justify-content: space-between;
   gap: 10px;
   margin: 16px 0 10px;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--sub);
 }
 
@@ -333,8 +333,8 @@ input:focus-visible {
   padding: 3px 7px;
   border-radius: 4px;
   background: var(--soft);
-  font-size: 10px;
-  color: #6a7769;
+  font-size: 12px;
+  color: #55624f;
 }
 
 .local-story {
@@ -354,7 +354,7 @@ input:focus-visible {
 
 .local-story p {
   margin: 8px 0;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.8;
   color: var(--sub);
 }
@@ -372,7 +372,7 @@ input:focus-visible {
 .stop {
   position: relative;
   display: grid;
-  grid-template-columns: 23px 1fr;
+  grid-template-columns: 26px 1fr;
   gap: 9px;
   padding-bottom: 20px;
 }
@@ -380,9 +380,9 @@ input:focus-visible {
 .stop:not(:last-child)::before {
   content: '';
   position: absolute;
-  top: 26px;
+  top: 30px;
   bottom: 3px;
-  left: 10px;
+  left: 12px;
   width: 1px;
   background: var(--line);
 }
@@ -394,11 +394,11 @@ input:focus-visible {
 .stop-number {
   display: grid;
   place-items: center;
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: var(--soft);
-  font-size: 10px;
+  font-size: 12px;
   color: var(--green);
 }
 
@@ -406,18 +406,18 @@ input:focus-visible {
   display: flex;
   justify-content: space-between;
   gap: 7px;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
 }
 
 .stop-title > span {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--sub);
 }
 
 .stop p {
   margin: 3px 0 0;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.8;
   color: var(--sub);
 }
@@ -433,7 +433,7 @@ input:focus-visible {
   display: inline-flex;
   align-items: center;
   min-height: 34px;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--green);
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -444,7 +444,7 @@ input:focus-visible {
   padding: 17px;
   border-radius: 11px;
   background: var(--soft);
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.8;
   color: var(--sub);
 }
@@ -454,14 +454,14 @@ input:focus-visible {
   padding: 13px 15px;
   border-radius: 9px;
   background: var(--soft);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
   color: var(--green);
 }
 
 .state {
   margin: 40px 0;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
   text-align: center;
   color: var(--sub);
@@ -474,7 +474,7 @@ input:focus-visible {
   border: 0;
   border-radius: 9px;
   background: #fee500;
-  font-size: 13px;
+  font-size: 15px;
   color: #191919;
 }
 
@@ -504,7 +504,7 @@ input:focus-visible {
 
 .consent p {
   margin: 10px 0 12px;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.9;
   color: var(--sub);
 }
@@ -514,7 +514,7 @@ input:focus-visible {
   align-items: center;
   gap: 8px;
   min-height: 34px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--green);
 }
 
@@ -540,7 +540,7 @@ input:focus-visible {
   margin: 10px auto 0;
   border: 0;
   background: none;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--sub);
 }
 
@@ -567,7 +567,7 @@ input:focus-visible {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
-  font-size: 12px;
+  font-size: 14px;
   text-align: left;
   color: var(--sub);
 }
@@ -584,9 +584,9 @@ input:focus-visible {
 
 .field-hint {
   float: right;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 400;
-  color: #89928a;
+  color: #6b736c;
 }
 
 .section {
@@ -595,7 +595,7 @@ input:focus-visible {
 
 .section-title {
   margin: 0 0 10px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -604,7 +604,7 @@ input:focus-visible {
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 4px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--sub);
 }
 
@@ -633,14 +633,14 @@ input:focus-visible {
 
 .row-card h4 {
   margin: 0 0 4px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   line-height: 1.6;
 }
 
 .row-card p {
   margin: 0;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.8;
   color: var(--sub);
 }
@@ -656,7 +656,7 @@ input:focus-visible {
   padding: 0;
   border: 0;
   background: none;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--green);
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -667,7 +667,7 @@ input:focus-visible {
   padding: 2px 6px;
   border-radius: 4px;
   background: var(--soft);
-  font-size: 10px;
+  font-size: 12px;
   color: var(--green);
 }
 
@@ -709,7 +709,7 @@ input:focus-visible {
   border: 2px solid #fff;
   border-radius: 50%;
   background: var(--green);
-  font-size: 12px;
+  font-size: 14px;
   color: #fff;
   box-shadow: 0 1px 4px #0000004d;
 }
@@ -719,7 +719,7 @@ input:focus-visible {
   padding: 13px 15px;
   border-radius: 9px;
   background: var(--soft);
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .map-selected strong {
@@ -728,7 +728,7 @@ input:focus-visible {
 
 .map-selected p {
   margin: 6px 0 0;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.8;
   color: var(--sub);
 }
@@ -758,7 +758,7 @@ input:focus-visible {
   border: 1px solid var(--line);
   border-radius: 18px;
   background: #fff;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--green);
   box-shadow: 0 1px 4px #00000026;
 }
@@ -768,7 +768,7 @@ input:focus-visible {
   border: 2px solid var(--green);
   border-radius: 12px;
   background: #fff;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--green);
   box-shadow: 0 1px 4px #0000004d;
@@ -778,15 +778,130 @@ div.map-pin {
   pointer-events: none;
 }
 
+.map-stage .map-fallback {
+  margin-top: 0;
+  padding-bottom: 60px;
+  border-radius: 0;
+}
+
 .map-guide {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
   margin: 16px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.map-guide .small-label {
+  flex: none;
+  margin: 0;
+}
+
+.map-hint {
+  font-size: 13px;
+  color: var(--sub);
+}
+
+.map-guide strong {
+  font-weight: 600;
+  color: var(--green);
+}
+
+.place-search {
+  padding: 0 21px 12px;
+}
+
+.search-row {
+  display: flex;
+  gap: 6px;
+}
+
+.search-row .text-input {
+  flex: 1;
+  min-width: 0;
+  margin-top: 0;
+}
+
+.search-button {
+  flex: none;
+  min-width: 64px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--green);
+  font-size: 15px;
+  color: #fff;
+}
+
+.search-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.search-results {
+  margin: 8px 0 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  list-style: none;
+}
+
+.search-results li + li {
+  border-top: 1px solid var(--line);
+}
+
+.search-results button {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 13px;
+  border: 0;
+  background: #fff;
+  text-align: left;
+}
+
+.search-results button:hover {
+  background: var(--soft);
+}
+
+.search-results strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.search-results span {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--sub);
+}
+
+.search-empty {
+  margin: 10px 2px 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sub);
+}
+
+.notice-link {
+  display: flex;
+  min-height: 30px;
+  margin-top: 4px;
+}
+
+.map-stage + .content .section {
+  scroll-margin-top: 12px;
 }
 
 .ai-badge {
   padding: 2px 7px;
   border-radius: 4px;
   background: var(--soft);
-  font-size: 10px;
+  font-size: 12px;
   color: var(--green);
 }
 
@@ -802,4 +917,9 @@ div.map-pin {
 .course-select[aria-pressed='true'] {
   border-color: #becdbd;
   background: var(--soft);
+}
+
+.text-button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }

@@ -3,9 +3,11 @@ import { useSearchParams } from 'react-router-dom'
 import { fetchAuthorizeUrl } from '../features/auth/api/authApi'
 import { safeNext, saveLoginAttempt } from '../features/auth/api/loginAttempt'
 import { errorMessage } from '../shared/api/client'
+import { useGoBack } from '../shared/lib/useGoBack'
 
 function LoginPage() {
   const [params] = useSearchParams()
+  const goBack = useGoBack('/')
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string>()
 
@@ -24,6 +26,11 @@ function LoginPage() {
 
   return (
     <>
+      <div className="brand-row">
+        <button type="button" className="back" onClick={goBack}>
+          ← 둘러보기로 돌아가기
+        </button>
+      </div>
       <div className="content">
         <div className="screen-intro">
           <p className="small-label">동네 한 칸</p>
@@ -37,7 +44,7 @@ function LoginPage() {
       </div>
       <div className="actions">
         <button type="button" className="kakao" disabled={pending} onClick={startLogin}>
-          카카오로 시작하기
+          {pending ? '카카오로 이동하고 있어요' : '카카오로 시작하기'}
         </button>
       </div>
     </>

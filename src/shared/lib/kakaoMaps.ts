@@ -18,8 +18,47 @@ export interface CustomOverlay {
   setMap(map: KakaoMap | null): void
 }
 
+export type ServiceStatus = 'OK' | 'ZERO_RESULT' | 'ERROR'
+
+export interface KeywordResult {
+  id: string
+  place_name: string
+  address_name: string
+  road_address_name: string
+  x: string
+  y: string
+}
+
+export interface AddressResult {
+  address_name: string
+  x: string
+  y: string
+  road_address: { address_name: string } | null
+}
+
+export interface CoordAddress {
+  address: { address_name: string } | null
+  road_address: { address_name: string } | null
+}
+
+export interface KakaoServices {
+  SortBy: { ACCURACY: string; DISTANCE: string }
+  Places: new () => {
+    keywordSearch(
+      keyword: string,
+      callback: (data: KeywordResult[], status: ServiceStatus) => void,
+      options?: { size?: number; location?: LatLng; sort?: string },
+    ): void
+  }
+  Geocoder: new () => {
+    addressSearch(address: string, callback: (data: AddressResult[], status: ServiceStatus) => void): void
+    coord2Address(lng: number, lat: number, callback: (data: CoordAddress[], status: ServiceStatus) => void): void
+  }
+}
+
 export interface KakaoMaps {
   load(callback: () => void): void
+  services: KakaoServices
   LatLng: new (lat: number, lng: number) => LatLng
   LatLngBounds: new () => LatLngBounds
   Map: new (container: HTMLElement, options: { center: LatLng; level: number }) => KakaoMap
@@ -50,7 +89,7 @@ function loadScript() {
       return
     }
     const script = document.createElement('script')
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&autoload=false`
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${appKey}&libraries=services&autoload=false`
     script.onerror = () => {
       script.remove()
       reject(new Error('Kakao map script failed'))

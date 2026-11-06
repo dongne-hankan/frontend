@@ -16,13 +16,14 @@ function RecordPage() {
     return <Navigate to={`/login?next=${encodeURIComponent(`/courses/${courseId}/record`)}`} replace />
   }
 
-  const nextParams = course
-    ? new URLSearchParams({
-        regionId: String(course.region.regionId),
-        tagId: String(course.tags[0]?.tagId),
-        duration: 'HOUR_1',
-      })
-    : ''
+  const nextParams =
+    course && course.tags.length > 0
+      ? new URLSearchParams({
+          regionId: String(course.region.regionId),
+          tagId: String(course.tags[0].tagId),
+          duration: 'HOUR_1',
+        })
+      : null
 
   return (
     <>
@@ -32,8 +33,11 @@ function RecordPage() {
         </Link>
         <span className="small-label">다녀온 기록</span>
       </div>
-      {isPending && <p className="state">코스를 불러오고 있어요.</p>}
-      {error && <p className="state">{errorMessage(error)}</p>}
+      {(isPending || error) && (
+        <div className="content">
+          <p className="state">{error ? errorMessage(error) : '코스를 불러오고 있어요.'}</p>
+        </div>
+      )}
       {course && !created && (
         <>
           <div className="content content-head">
@@ -66,7 +70,7 @@ function RecordPage() {
             <h2>{created.neighborhood.newlyFilled ? '한 칸이 채워졌어요.' : '기록을 남겼어요.'}</h2>
             <p>이제 추천이 내 기록에 맞춰 달라져요.</p>
           </div>
-          <Link className="primary" to={`/recommendations?${nextParams}`}>
+          <Link className="primary" to={nextParams ? `/recommendations?${nextParams}` : '/'}>
             다음 추천 보기 <span aria-hidden="true">→</span>
           </Link>
           <Link className="secondary spaced" to="/my">

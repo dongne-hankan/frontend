@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useCourse } from '../features/course/api/courseApi'
 import CourseMap from '../features/course/components/CourseMap'
 import ResidentStory from '../features/course/components/ResidentStory'
@@ -8,10 +8,11 @@ import { useSaveCourse, useUnsaveCourse } from '../features/my/api/myApi'
 import { errorMessage } from '../shared/api/client'
 import { tokenStore } from '../shared/auth/tokenStore'
 import { minutesLabel, regionLabel } from '../shared/lib/format'
+import { useGoBack } from '../shared/lib/useGoBack'
 
 function CourseDetailPage() {
   const { courseId } = useParams()
-  const navigate = useNavigate()
+  const goBack = useGoBack('/')
   const { data: course, isPending, error } = useCourse(courseId)
   const story = course?.stops.find((stop) => stop.highlightStory)
   const [params, setParams] = useSearchParams()
@@ -43,8 +44,8 @@ function CourseDetailPage() {
   return (
     <>
       <div className="brand-row">
-        <button type="button" className="back" onClick={() => navigate(-1)}>
-          ← 코스 목록
+        <button type="button" className="back" onClick={goBack}>
+          ← 뒤로
         </button>
         <span className="small-label">주민의 일상</span>
       </div>
@@ -83,7 +84,9 @@ function CourseDetailPage() {
             {course.me && course.me.records.length > 0 && (
               <p className="notice">이 코스에 기록을 {course.me.records.length}번 남겼어요.</p>
             )}
-            {saveCourse.error && <p className="notice">{errorMessage(saveCourse.error)}</p>}
+            {(saveCourse.error || unsaveCourse.error) && (
+              <p className="notice">{errorMessage(saveCourse.error ?? unsaveCourse.error)}</p>
+            )}
 
             <StopList stops={course.stops} storyOrder={story?.order} />
             <CourseMap stops={course.stops} />

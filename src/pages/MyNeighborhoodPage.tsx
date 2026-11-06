@@ -41,7 +41,8 @@ function SavedCourses() {
 
   return (
     <section className="section">
-      <h3 className="section-title">담은 코스 {data?.totalElements ?? 0}</h3>
+      <h3 className="section-title">담은 코스 {data?.totalElements}</h3>
+      {unsaveCourse.error && <p className="notice">{errorMessage(unsaveCourse.error)}</p>}
       {data?.items.length === 0 && <p className="course-desc">마음에 드는 코스를 담아 보세요.</p>}
       {data?.items.map(({ course, visited }) => (
         <div className="row-card" key={course.courseId}>
@@ -55,7 +56,12 @@ function SavedCourses() {
               : '지금은 볼 수 없는 코스예요.'}
           </p>
           <div className="row-actions">
-            <button type="button" className="text-button" onClick={() => unsaveCourse.mutate(course.courseId)}>
+            <button
+              type="button"
+              className="text-button"
+              disabled={unsaveCourse.isPending}
+              onClick={() => unsaveCourse.mutate(course.courseId)}
+            >
               담기 취소
             </button>
           </div>
@@ -77,7 +83,8 @@ function Records() {
 
   return (
     <section className="section">
-      <h3 className="section-title">다녀온 기록 {data?.totalElements ?? 0}</h3>
+      <h3 className="section-title">다녀온 기록 {data?.totalElements}</h3>
+      {deleteRecord.error && <p className="notice">{errorMessage(deleteRecord.error)}</p>}
       {data?.items.length === 0 && <p className="course-desc">다녀온 코스에 짧은 느낌을 남겨 보세요.</p>}
       {data?.items.map((record) => (
         <div className="row-card" key={record.recordId}>
@@ -96,7 +103,12 @@ function Records() {
             <Link className="text-button" to={`/my/records/${record.recordId}/edit`} state={record}>
               수정
             </Link>
-            <button type="button" className="text-button" onClick={() => confirmDelete(record.recordId)}>
+            <button
+              type="button"
+              className="text-button"
+              disabled={deleteRecord.isPending}
+              onClick={() => confirmDelete(record.recordId)}
+            >
               삭제
             </button>
           </div>

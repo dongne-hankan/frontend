@@ -7,6 +7,9 @@ export interface Point {
   lng: number
 }
 
+// 대구시청 주변. 위치를 고르기 전 지도와 검색의 기준점이다.
+export const DEFAULT_CENTER: Point = { lat: 35.8714, lng: 128.6014 }
+
 export interface NearbyRequest extends Point {
   duration: Duration
   mood?: string
@@ -40,8 +43,8 @@ export interface NearbyRecommendation {
   message: string | null
 }
 
-// TODO: 백엔드 주변 산책 추천 API가 나오면 .env에 VITE_USE_NEARBY_MOCK=false를 넣거나 이 분기를 지운다.
-const useMock = import.meta.env.VITE_USE_NEARBY_MOCK !== 'false'
+// 백엔드 없이 화면만 볼 때는 .env에 VITE_USE_NEARBY_MOCK=true를 넣어 가짜 응답을 쓴다.
+const useMock = import.meta.env.VITE_USE_NEARBY_MOCK === 'true'
 
 function mockStop(center: Point, order: number, latOffset: number, lngOffset: number): NearbyStop {
   return {
