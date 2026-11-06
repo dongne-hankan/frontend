@@ -6,7 +6,7 @@ import { regionLabel } from '../shared/lib/format'
 
 function HomePage() {
   const navigate = useNavigate()
-  const { data: options, isPending, error } = useFindOptions()
+  const { data: options, isPending, error, refetch } = useFindOptions()
   const [selectedRegionId, setRegionId] = useState<number>()
   const [selectedTagId, setTagId] = useState<number>()
   const [selectedDuration, setDuration] = useState<Duration>()
@@ -27,19 +27,26 @@ function HomePage() {
       <div className="brand-row">
         <span className="brand">동네 한 칸</span>
       </div>
-      <div className="content">
-        <div className="screen-intro">
+      <div className="content home-content">
+        <div className="screen-intro welcome-panel">
           <p className="small-label">새 동네와 조금 가까워지는 시간</p>
           <h2>
             이 동네에,
             <br />
             내가 좋아할 곳은?
           </h2>
-          <p>대구·경북 주민들의 일상에서 찾아보세요.</p>
+          <p>동네와 하고 싶은 일, 남는 시간을 골라보세요. 주민이 좋아하는 장소를 짧은 코스로 이어드려요.</p>
         </div>
 
         {isPending && <p className="state">선택지를 불러오고 있어요.</p>}
-        {error && <p className="state">{errorMessage(error)}</p>}
+        {error && (
+          <div className="find-error" role="status">
+            <p>{errorMessage(error)}</p>
+            <button type="button" className="secondary" onClick={() => void refetch()}>
+              다시 시도
+            </button>
+          </div>
+        )}
         {options && (
           <>
             <label htmlFor="region" className="field-label">
@@ -103,7 +110,7 @@ function HomePage() {
       </div>
       <div className="actions">
         <button type="button" className="primary" disabled={!ready} onClick={findCourses}>
-          주민의 일상 만나보기 <span aria-hidden="true">→</span>
+          오늘의 동네 코스 찾기 <span aria-hidden="true">→</span>
         </button>
       </div>
     </>

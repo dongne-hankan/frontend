@@ -24,8 +24,8 @@ function LoginPage() {
 
   return (
     <>
-      <div className="content">
-        <div className="screen-intro">
+      <div className="content login-content">
+        <div className="screen-intro welcome-panel">
           <p className="small-label">동네 한 칸</p>
           <h2>
             나의 동네를
@@ -33,11 +33,11 @@ function LoginPage() {
           </h2>
           <p>담은 코스와 다녀온 기록은 로그인하면 이어서 볼 수 있어요.</p>
         </div>
-        {error && <p className="notice">{error}</p>}
+        {error && <p className="notice" role="alert">{error}</p>}
       </div>
-      <div className="actions">
+      <div className="actions login-actions">
         <button type="button" className="kakao" disabled={pending} onClick={startLogin}>
-          카카오로 시작하기
+          {pending ? '카카오에 연결하는 중…' : '카카오로 시작하기'}
         </button>
       </div>
     </>
