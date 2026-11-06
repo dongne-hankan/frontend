@@ -31,7 +31,7 @@ function RecommendationPage() {
   return (
     <>
       <div className="brand-row">
-        <Link to="/" className="back">
+        <Link to="/find" className="back">
           ← 조건 바꾸기
         </Link>
         <span className="small-label">오늘의 동네</span>

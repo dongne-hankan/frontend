@@ -3,11 +3,9 @@ import { useSearchParams } from 'react-router-dom'
 import { fetchAuthorizeUrl } from '../features/auth/api/authApi'
 import { safeNext, saveLoginAttempt } from '../features/auth/api/loginAttempt'
 import { errorMessage } from '../shared/api/client'
-import { useGoBack } from '../shared/lib/useGoBack'
 
 function LoginPage() {
   const [params] = useSearchParams()
-  const goBack = useGoBack('/')
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string>()
 
@@ -26,13 +24,8 @@ function LoginPage() {
 
   return (
     <>
-      <div className="brand-row">
-        <button type="button" className="back" onClick={goBack}>
-          ← 둘러보기로 돌아가기
-        </button>
-      </div>
-      <div className="content">
-        <div className="screen-intro">
+      <div className="content login-content">
+        <div className="screen-intro welcome-panel">
           <p className="small-label">동네 한 칸</p>
           <h2>
             나의 동네를
@@ -40,11 +33,11 @@ function LoginPage() {
           </h2>
           <p>담은 코스와 다녀온 기록은 로그인하면 이어서 볼 수 있어요.</p>
         </div>
-        {error && <p className="notice">{error}</p>}
+        {error && <p className="notice" role="alert">{error}</p>}
       </div>
-      <div className="actions">
+      <div className="actions login-actions">
         <button type="button" className="kakao" disabled={pending} onClick={startLogin}>
-          {pending ? '카카오로 이동하고 있어요' : '카카오로 시작하기'}
+          {pending ? '카카오에 연결하는 중…' : '카카오로 시작하기'}
         </button>
       </div>
     </>

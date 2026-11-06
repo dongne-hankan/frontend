@@ -172,7 +172,7 @@ function MapHomePage() {
           <div className="notice">
             {recommendation.data.message}
             {courses.length === 0 && (
-              <Link className="place-link notice-link" to="/">
+              <Link className="place-link notice-link" to="/find">
                 지역 골라 추천받기 →
               </Link>
             )}
