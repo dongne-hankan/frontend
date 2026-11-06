@@ -3,6 +3,7 @@ import CourseDetailPage from '../pages/CourseDetailPage'
 import HomePage from '../pages/HomePage'
 import EditRecordPage from '../pages/EditRecordPage'
 import KakaoCallbackPage from '../pages/KakaoCallbackPage'
+import LocalSignupPage from '../pages/LocalSignupPage'
 import MapHomePage from '../pages/MapHomePage'
 import LoginPage from '../pages/LoginPage'
 import MyNeighborhoodPage from '../pages/MyNeighborhoodPage'
@@ -35,6 +36,7 @@ export const router = createBrowserRouter([
       { path: '/my/records/:recordId/edit', element: <EditRecordPage /> },
       { path: '/login', element: <LoginPage /> },
       { path: '/signup', element: <SignupPage /> },
+      { path: '/signup/local', element: <LocalSignupPage /> },
       { path: '/oauth/kakao', element: <KakaoCallbackPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
