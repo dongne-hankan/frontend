@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { useChangeNickname, useLogout, useMyInfo, useWithdraw } from '../features/auth/api/authApi'
 import { errorMessage } from '../shared/api/client'
@@ -8,9 +8,17 @@ function NicknameForm({ current }: { current: string }) {
   const [nickname, setNickname] = useState(current)
   const changeNickname = useChangeNickname()
   const unchanged = nickname.trim() === current
+  const canSubmit = !unchanged && nickname.trim().length >= 2 && !changeNickname.isPending
+
+  const submit = (event: FormEvent) => {
+    event.preventDefault()
+    if (canSubmit) {
+      changeNickname.mutate(nickname.trim())
+    }
+  }
 
   return (
-    <>
+    <form onSubmit={submit}>
       <label htmlFor="my-nickname" className="field-label">
         닉네임
       </label>
@@ -21,21 +29,17 @@ function NicknameForm({ current }: { current: string }) {
         maxLength={12}
         onChange={(event) => setNickname(event.target.value)}
       />
-      <button
-        type="button"
-        className="secondary spaced"
-        disabled={unchanged || nickname.trim().length < 2 || changeNickname.isPending}
-        onClick={() => changeNickname.mutate(nickname.trim())}
-      >
+      <button type="submit" className="secondary spaced" disabled={!canSubmit}>
         닉네임 바꾸기
       </button>
+      {changeNickname.isSuccess && unchanged && <p className="notice">닉네임을 바꿨어요.</p>}
       {changeNickname.error && <p className="notice">{errorMessage(changeNickname.error)}</p>}
-    </>
+    </form>
   )
 }
 
 function MySettingsPage() {
-  const { data: me, error } = useMyInfo()
+  const { data: me, isPending, error } = useMyInfo()
   const logout = useLogout()
   const withdraw = useWithdraw()
 
@@ -58,10 +62,11 @@ function MySettingsPage() {
         <span className="small-label">내 정보</span>
       </div>
       <div className="content">
+        {isPending && <p className="state">내 정보를 불러오고 있어요.</p>}
         {error && <p className="state">{errorMessage(error)}</p>}
         {me && (
           <>
-            <NicknameForm key={me.nickname} current={me.nickname} />
+            <NicknameForm current={me.nickname} />
             <div className="feeling-box">
               <button type="button" className="secondary" disabled={logout.isPending} onClick={() => logout.mutate()}>
                 로그아웃

@@ -1,24 +1,32 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { directionsUrl, usePlace } from '../features/course/api/courseApi'
 import ResidentStory from '../features/course/components/ResidentStory'
 import { errorMessage } from '../shared/api/client'
+import { useGoBack } from '../shared/lib/useGoBack'
 
 function PlaceDetailPage() {
   const { placeId } = useParams()
-  const navigate = useNavigate()
+  const goBack = useGoBack('/')
   const { data: place, isPending, error } = usePlace(placeId)
 
   return (
     <>
       <div className="brand-row">
-        <button type="button" className="back" onClick={() => navigate(-1)}>
+        <button type="button" className="back" onClick={goBack}>
           ← 코스로 돌아가기
         </button>
         <span className="small-label">장소 이야기</span>
       </div>
       <div className="content">
         {isPending && <p className="state">장소를 불러오고 있어요.</p>}
-        {error && <p className="state">{errorMessage(error)}</p>}
+        {error && (
+          <>
+            <p className="state">{errorMessage(error)}</p>
+            <Link className="secondary" to="/">
+              다른 코스 찾아보기
+            </Link>
+          </>
+        )}
         {place && (
           <>
             <div className="screen-intro">

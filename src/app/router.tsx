@@ -3,6 +3,7 @@ import CourseDetailPage from '../pages/CourseDetailPage'
 import HomePage from '../pages/HomePage'
 import EditRecordPage from '../pages/EditRecordPage'
 import KakaoCallbackPage from '../pages/KakaoCallbackPage'
+import MapHomePage from '../pages/MapHomePage'
 import LoginPage from '../pages/LoginPage'
 import MyNeighborhoodPage from '../pages/MyNeighborhoodPage'
 import MySettingsPage from '../pages/MySettingsPage'
@@ -21,8 +22,10 @@ export const router = createBrowserRouter([
       {
         path: '/',
         loader: () => (tokenStore.isLoggedIn() ? null : redirect('/login')),
-        element: <HomePage />,
+        element: <MapHomePage />,
       },
+      { path: '/map', loader: () => redirect('/') },
+      { path: '/find', element: <HomePage /> },
       { path: '/recommendations', element: <RecommendationPage /> },
       { path: '/courses/:courseId', element: <CourseDetailPage /> },
       { path: '/courses/:courseId/record', element: <RecordPage /> },
