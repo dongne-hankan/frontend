@@ -63,7 +63,7 @@ export interface Neighborhood {
 const LIST_SIZE = { size: 50 }
 
 function refreshMyData(queryClient: QueryClient) {
-  for (const queryKey of [['my'], ['courses'], ['users', 'me'], ['find', 'recommendations']]) {
+  for (const queryKey of [['my'], ['courses'], ['users', 'me']]) {
     queryClient.invalidateQueries({ queryKey })
   }
 }
@@ -108,6 +108,20 @@ export function useUnsaveCourse() {
 export function useCreateRecord() {
   return useMyMutation((values: RecordValues & { courseId: number }) =>
     postData<RecordCreated>('/api/my/records', values),
+  )
+}
+
+export interface WalkCourse {
+  name: string
+  intro: string
+  durationMinutes: number
+  stops: { order: number; kakaoPlaceId: string; kakaoPlaceUrl: string | null; stayMinutes: number; moveMinutesToNext: number | null }[]
+}
+
+export function useRecordWalk() {
+  return useMyMutation(
+    (body: RecordValues & { course: WalkCourse & { tagId: number; center: { lat: number; lng: number } } }) =>
+      postData<RecordCreated>('/api/my/walks', body),
   )
 }
 

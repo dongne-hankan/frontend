@@ -13,6 +13,7 @@ export const DEFAULT_CENTER: Point = { lat: 35.8714, lng: 128.6014 }
 export interface NearbyRequest extends Point {
   duration: Duration
   mood?: string
+  tagId?: number
 }
 
 export interface NearbyStop {
@@ -24,6 +25,7 @@ export interface NearbyStop {
   stayMinutes: number
   moveMinutesToNext: number | null
   reason: string
+  kakaoPlaceId: string
   kakaoPlaceUrl: string | null
 }
 
@@ -56,6 +58,7 @@ function mockStop(center: Point, order: number, latOffset: number, lngOffset: nu
     stayMinutes: 15,
     moveMinutesToNext: order === 1 ? 5 : null,
     reason: '화면 개발용 가짜 응답입니다.',
+    kakaoPlaceId: `mock-${order}`,
     kakaoPlaceUrl: null,
   }
 }

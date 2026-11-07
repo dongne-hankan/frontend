@@ -4,13 +4,10 @@ import {
   useDeleteRecord,
   useNeighborhood,
   useRecords,
-  useSavedCourses,
-  useUnsaveCourse,
 } from '../features/my/api/myApi'
 import NeighborhoodGrid from '../features/my/components/NeighborhoodGrid'
 import { errorMessage } from '../shared/api/client'
 import { tokenStore } from '../shared/auth/tokenStore'
-import { minutesLabel } from '../shared/lib/format'
 
 function GuestIntro() {
   return (
@@ -32,42 +29,6 @@ function GuestIntro() {
         </Link>
       </div>
     </>
-  )
-}
-
-function SavedCourses() {
-  const { data } = useSavedCourses()
-  const unsaveCourse = useUnsaveCourse()
-
-  return (
-    <section className="section">
-      <h3 className="section-title">담은 코스 {data?.totalElements}</h3>
-      {unsaveCourse.error && <p className="notice">{errorMessage(unsaveCourse.error)}</p>}
-      {data?.items.length === 0 && <p className="course-desc">마음에 드는 코스를 담아 보세요.</p>}
-      {data?.items.map(({ course, visited }) => (
-        <div className="row-card" key={course.courseId}>
-          <h4>
-            {course.visible ? <Link to={`/courses/${course.courseId}`}>{course.name}</Link> : course.name}
-            {visited && <span className="saved-tag">다녀옴</span>}
-          </h4>
-          <p>
-            {course.visible
-              ? `${course.region.name} · ${minutesLabel(course.durationMinutes)}`
-              : '지금은 볼 수 없는 코스예요.'}
-          </p>
-          <div className="row-actions">
-            <button
-              type="button"
-              className="text-button"
-              disabled={unsaveCourse.isPending}
-              onClick={() => unsaveCourse.mutate(course.courseId)}
-            >
-              담기 취소
-            </button>
-          </div>
-        </div>
-      ))}
-    </section>
   )
 }
 
@@ -143,7 +104,6 @@ function MemberNeighborhood() {
               첫 코스 찾기 <span aria-hidden="true">→</span>
             </Link>
           )}
-          <SavedCourses />
           <Records />
         </>
       )}
