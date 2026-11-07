@@ -16,15 +16,6 @@ function RecordPage() {
     return <Navigate to={`/login?next=${encodeURIComponent(`/courses/${courseId}/record`)}`} replace />
   }
 
-  const nextParams =
-    course && course.tags.length > 0
-      ? new URLSearchParams({
-          regionId: String(course.region.regionId),
-          tagId: String(course.tags[0].tagId),
-          duration: 'HOUR_1',
-        })
-      : null
-
   return (
     <>
       <div className="brand-row">
@@ -70,7 +61,7 @@ function RecordPage() {
             <h2>{created.neighborhood.newlyFilled ? '한 칸이 채워졌어요.' : '기록을 남겼어요.'}</h2>
             <p>이제 추천이 내 기록에 맞춰 달라져요.</p>
           </div>
-          <Link className="primary" to={nextParams ? `/recommendations?${nextParams}` : '/'}>
+          <Link className="primary" to="/">
             다음 추천 보기 <span aria-hidden="true">→</span>
           </Link>
           <Link className="secondary spaced" to="/my">
