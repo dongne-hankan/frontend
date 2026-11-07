@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
+import { useRef } from 'react'
 import { postData } from '../../../shared/api/client'
 import type { Duration } from '../../find/api/findApi'
 
@@ -10,7 +11,9 @@ export interface Point {
 // 대구시청 주변. 위치를 고르기 전 지도와 검색의 기준점이다.
 export const DEFAULT_CENTER: Point = { lat: 35.8714, lng: 128.6014 }
 
-export interface NearbyRequest extends Point {
+// 좌표(지도 화면)나 regionId(동네 찾기 화면) 중 하나로 출발점을 알려 준다.
+export type NearbyRequest = ({ regionId?: undefined } & Point | { regionId: number; lat?: undefined; lng?: undefined }) & {
+  tagId?: number
   duration: Duration
   mood?: string
 }
@@ -61,7 +64,7 @@ function mockStop(center: Point, order: number, latOffset: number, lngOffset: nu
 }
 
 function mockRecommendation(request: NearbyRequest): Promise<NearbyRecommendation> {
-  const center = { lat: request.lat, lng: request.lng }
+  const center = request.regionId === undefined ? { lat: request.lat, lng: request.lng } : DEFAULT_CENTER
   const course = (name: string, offset: number): NearbyCourse => ({
     courseId: null,
     name,
@@ -85,8 +88,20 @@ function mockRecommendation(request: NearbyRequest): Promise<NearbyRecommendatio
 }
 
 export function useNearbyRecommendation() {
-  return useMutation({
+  const inFlight = useRef(false)
+  const mutation = useMutation({
     mutationFn: (request: NearbyRequest) =>
       useMock ? mockRecommendation(request) : postData<NearbyRecommendation>('/api/find/nearby', request),
+    onSettled: () => {
+      inFlight.current = false
+    },
   })
+  // 로딩 표시가 화면에 반영되기 전에 다시 눌러도 카카오·AI 호출이 두 번 나가지 않게 막는다.
+  const mutate: typeof mutation.mutate = (request, options) => {
+    if (!inFlight.current) {
+      inFlight.current = true
+      mutation.mutate(request, options)
+    }
+  }
+  return { ...mutation, mutate }
 }

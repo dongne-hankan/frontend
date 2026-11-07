@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRef, useState } from 'react'
 import { useFindOptions, type Duration } from '../features/find/api/findApi'
+import { useNearbyRecommendation } from '../features/map/api/nearbyApi'
+import NearbyResult from '../features/map/components/NearbyResult'
 import { errorMessage } from '../shared/api/client'
 import { regionLabel } from '../shared/lib/format'
 
 function HomePage() {
-  const navigate = useNavigate()
   const { data: options, isPending, error, refetch } = useFindOptions()
   const [selectedRegionId, setRegionId] = useState<number>()
   const [selectedTagId, setTagId] = useState<number>()
@@ -15,11 +15,23 @@ function HomePage() {
   const tagId = selectedTagId ?? options?.tags[0]?.tagId
   const duration = selectedDuration ?? options?.durations[0]?.code
   const ready = regionId !== undefined && tagId !== undefined && duration !== undefined
+  const recommendation = useNearbyRecommendation()
+  const resultRef = useRef<HTMLElement>(null)
+  const courses = recommendation.data?.courses ?? []
 
   const findCourses = () => {
-    if (ready) {
-      navigate(`/recommendations?${new URLSearchParams({ regionId: String(regionId), tagId: String(tagId), duration })}`)
+    if (ready && !recommendation.isPending) {
+      recommendation.mutate(
+        { regionId, tagId, duration },
+        { onSuccess: () => requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' })) },
+      )
     }
+  }
+
+  // 조건을 바꾸면 이전 조건의 결과가 남아 헷갈리므로 지운다.
+  const change = (apply: () => void) => {
+    apply()
+    recommendation.reset()
   }
 
   return (
@@ -56,7 +68,7 @@ function HomePage() {
               id="region"
               className="region-select"
               value={regionId}
-              onChange={(event) => setRegionId(Number(event.target.value))}
+              onChange={(event) => change(() => setRegionId(Number(event.target.value)))}
             >
               {options.regions.map((region) => (
                 <option key={region.regionId} value={region.regionId}>
@@ -75,7 +87,7 @@ function HomePage() {
                   type="button"
                   className="option"
                   aria-pressed={tag.tagId === tagId}
-                  onClick={() => setTagId(tag.tagId)}
+                  onClick={() => change(() => setTagId(tag.tagId))}
                 >
                   {tag.phrase}
                 </button>
@@ -87,7 +99,7 @@ function HomePage() {
               <select
                 id="duration"
                 value={duration}
-                onChange={(event) => setDuration(event.target.value as Duration)}
+                onChange={(event) => change(() => setDuration(event.target.value as Duration))}
               >
                 {options.durations.map((item) => (
                   <option key={item.code} value={item.code}>
@@ -97,6 +109,22 @@ function HomePage() {
               </select>
             </div>
           </>
+        )}
+
+        {recommendation.isPending && <p className="state">동네 주변 장소를 살펴보고 있어요.</p>}
+        {recommendation.error && (
+          <p className="notice" role="alert">
+            {errorMessage(recommendation.error)}
+          </p>
+        )}
+        {recommendation.data?.message && <p className="notice">{recommendation.data.message}</p>}
+        {courses.length > 0 && (
+          <NearbyResult
+            key={recommendation.submittedAt}
+            courses={courses}
+            aiGenerated={recommendation.data?.aiGenerated ?? false}
+            resultRef={resultRef}
+          />
         )}
 
         <div className="feeling-box">
@@ -109,8 +137,9 @@ function HomePage() {
         </div>
       </div>
       <div className="actions">
-        <button type="button" className="primary" disabled={!ready} onClick={findCourses}>
-          오늘의 동네 코스 찾기 <span aria-hidden="true">→</span>
+        <button type="button" className="primary" disabled={!ready || recommendation.isPending} onClick={findCourses}>
+          {recommendation.isPending ? '코스를 찾고 있어요' : courses.length > 0 ? '다시 추천받기' : '오늘의 동네 코스 찾기'}{' '}
+          <span aria-hidden="true">→</span>
         </button>
       </div>
     </>
