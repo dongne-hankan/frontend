@@ -11,11 +11,10 @@ export interface Point {
 // 대구시청 주변. 위치를 고르기 전 지도와 검색의 기준점이다.
 export const DEFAULT_CENTER: Point = { lat: 35.8714, lng: 128.6014 }
 
-// 좌표(지도 화면)나 regionId(동네 찾기 화면) 중 하나로 출발점을 알려 준다.
-export type NearbyRequest = ({ regionId?: undefined } & Point | { regionId: number; lat?: undefined; lng?: undefined }) & {
-  tagId?: number
+export interface NearbyRequest extends Point {
   duration: Duration
   mood?: string
+  tagId?: number
 }
 
 export interface NearbyStop {
@@ -27,6 +26,7 @@ export interface NearbyStop {
   stayMinutes: number
   moveMinutesToNext: number | null
   reason: string
+  kakaoPlaceId: string
   kakaoPlaceUrl: string | null
 }
 
@@ -59,12 +59,13 @@ function mockStop(center: Point, order: number, latOffset: number, lngOffset: nu
     stayMinutes: 15,
     moveMinutesToNext: order === 1 ? 5 : null,
     reason: '화면 개발용 가짜 응답입니다.',
+    kakaoPlaceId: `mock-${order}`,
     kakaoPlaceUrl: null,
   }
 }
 
 function mockRecommendation(request: NearbyRequest): Promise<NearbyRecommendation> {
-  const center = request.regionId === undefined ? { lat: request.lat, lng: request.lng } : DEFAULT_CENTER
+  const center = { lat: request.lat, lng: request.lng }
   const course = (name: string, offset: number): NearbyCourse => ({
     courseId: null,
     name,

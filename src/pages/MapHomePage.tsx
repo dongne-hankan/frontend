@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState, type FormEvent } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
-import type { Duration } from '../features/find/api/findApi'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useFindOptions, type Duration } from '../features/find/api/findApi'
 import { DEFAULT_CENTER, useNearbyRecommendation, type Point } from '../features/map/api/nearbyApi'
 import { addressOf } from '../features/map/api/placeSearch'
 import NearbyMap from '../features/map/components/NearbyMap'
@@ -44,6 +44,10 @@ function MapHomePage() {
   const [locating, setLocating] = useState(false)
   const [locationError, setLocationError] = useState<string>()
   const recommendation = useNearbyRecommendation()
+  const navigate = useNavigate()
+  const { data: options } = useFindOptions()
+  const [selectedTagId, setSelectedTagId] = useState<number>()
+  const tagId = selectedTagId ?? options?.tags[0]?.tagId
   const resultRef = useRef<HTMLElement>(null)
   const labelRequest = useRef(0)
 
@@ -74,6 +78,18 @@ function MapHomePage() {
     recommendation.reset()
   }
 
+  const selectTag = (next: number) => {
+    setSelectedTagId(next)
+    recommendation.reset()
+  }
+
+  const recordWalk = () => {
+    const center = recommendation.data?.center ?? point
+    if (selectedCourse && center && tagId !== undefined) {
+      navigate('/walks/record', { state: { course: selectedCourse, tagId, center } })
+    }
+  }
+
   const locateMe = () => {
     const failLocating = (message: string) => {
       setLocating(false)
@@ -101,7 +117,7 @@ function MapHomePage() {
     if (point && !recommendation.isPending) {
       setSelectedIndex(0)
       recommendation.mutate(
-        { ...point, duration, mood: mood.trim() || undefined },
+        { ...point, duration, tagId, mood: mood.trim() || undefined },
         { onSuccess: () => requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' })) },
       )
     }
@@ -153,6 +169,27 @@ function MapHomePage() {
           ))}
         </div>
 
+        {options && (
+          <>
+            <div className="label-row">
+              <h3>어떤 시간을 보내고 싶나요?</h3>
+            </div>
+            <div className="options">
+              {options.tags.map((tag) => (
+                <button
+                  key={tag.tagId}
+                  type="button"
+                  className="option"
+                  aria-pressed={tag.tagId === tagId}
+                  onClick={() => selectTag(tag.tagId)}
+                >
+                  {tag.phrase}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
         <label htmlFor="mood" className="field-label field-gap">
           지금 기분이나 원하는 것
           <span className="field-hint">선택</span>
@@ -171,11 +208,6 @@ function MapHomePage() {
         {recommendation.data?.message && (
           <div className="notice">
             {recommendation.data.message}
-            {courses.length === 0 && (
-              <Link className="place-link notice-link" to="/find">
-                지역 골라 추천받기 →
-              </Link>
-            )}
           </div>
         )}
 
@@ -186,6 +218,11 @@ function MapHomePage() {
             aiGenerated={recommendation.data?.aiGenerated ?? false}
             resultRef={resultRef}
             onSelectCourse={(course) => setSelectedIndex(courses.indexOf(course))}
+            action={
+              <button type="button" className="secondary spaced" onClick={recordWalk}>
+                다녀왔어요 ✓
+              </button>
+            }
           />
         )}
       </form>

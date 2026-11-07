@@ -1,6 +1,12 @@
 import { useState, type FormEvent } from 'react'
-import { Link, Navigate } from 'react-router-dom'
-import { useChangeNickname, useLogout, useMyInfo, useWithdraw } from '../features/auth/api/authApi'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import {
+  useChangeNickname,
+  useChangePassword,
+  useLogout,
+  useMyInfo,
+  useWithdraw,
+} from '../features/auth/api/authApi'
 import { errorMessage } from '../shared/api/client'
 import { tokenStore } from '../shared/auth/tokenStore'
 
@@ -38,6 +44,66 @@ function NicknameForm({ current }: { current: string }) {
   )
 }
 
+// 비밀번호를 바꾸면 서버가 모든 로그인을 끊으므로 다시 로그인하게 한다.
+function PasswordForm() {
+  const navigate = useNavigate()
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const changePassword = useChangePassword()
+  const canSubmit = currentPassword.length > 0 && newPassword.length >= 8 && !changePassword.isPending
+
+  const submit = (event: FormEvent) => {
+    event.preventDefault()
+    if (!canSubmit) {
+      return
+    }
+    changePassword.mutate(
+      { currentPassword, newPassword },
+      {
+        onSuccess: () => {
+          tokenStore.clear()
+          navigate('/login', {
+            replace: true,
+            state: { notice: '비밀번호를 바꿨어요. 새 비밀번호로 다시 로그인해 주세요.' },
+          })
+        },
+      },
+    )
+  }
+
+  return (
+    <form className="section" onSubmit={submit}>
+      <label htmlFor="current-password" className="field-label">
+        현재 비밀번호
+      </label>
+      <input
+        id="current-password"
+        className="text-input"
+        type="password"
+        autoComplete="current-password"
+        value={currentPassword}
+        onChange={(event) => setCurrentPassword(event.target.value)}
+      />
+      <label htmlFor="new-password" className="field-label field-gap">
+        새 비밀번호 <span className="field-hint">8자 이상</span>
+      </label>
+      <input
+        id="new-password"
+        className="text-input"
+        type="password"
+        autoComplete="new-password"
+        value={newPassword}
+        maxLength={64}
+        onChange={(event) => setNewPassword(event.target.value)}
+      />
+      <button type="submit" className="secondary spaced" disabled={!canSubmit}>
+        비밀번호 바꾸기
+      </button>
+      {changePassword.error && <p className="notice">{errorMessage(changePassword.error)}</p>}
+    </form>
+  )
+}
+
 function MySettingsPage() {
   const { data: me, isPending, error } = useMyInfo()
   const logout = useLogout()
@@ -67,6 +133,7 @@ function MySettingsPage() {
         {me && (
           <>
             <NicknameForm current={me.nickname} />
+            {me.loginId && <PasswordForm />}
             <div className="feeling-box">
               <button type="button" className="secondary" disabled={logout.isPending} onClick={() => logout.mutate()}>
                 로그아웃

@@ -12,6 +12,7 @@ export interface AuthUser {
 }
 
 export interface MyInfo extends AuthUser {
+  loginId: string | null
   joinedAt: string
   savedCourseCount: number
   recordCount: number
@@ -43,6 +44,18 @@ export function signup(signupToken: string, nickname: string) {
   return postData<Tokens>('/api/auth/signup', { signupToken, privacyAgreed: true, nickname })
 }
 
+export function checkLoginIdAvailability(loginId: string) {
+  return getData<{ available: boolean }>('/api/auth/login-id-availability', { loginId })
+}
+
+export function signupLocal(loginId: string, password: string, nickname: string) {
+  return postData<Tokens>('/api/auth/local/signup', { loginId, password, nickname, privacyAgreed: true })
+}
+
+export function login(loginId: string, password: string) {
+  return postData<Tokens>('/api/auth/login', { loginId, password })
+}
+
 export function useMyInfo() {
   return useQuery({
     queryKey: ['users', 'me'],
@@ -62,6 +75,13 @@ export function useChangeNickname() {
   return useMutation({
     mutationFn: (nickname: string) => patchData<MyInfo>('/api/users/me', { nickname }),
     onSuccess: (myInfo) => queryClient.setQueryData(['users', 'me'], myInfo),
+  })
+}
+
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: (passwords: { currentPassword: string; newPassword: string }) =>
+      apiClient.patch('/api/users/me/password', passwords),
   })
 }
 

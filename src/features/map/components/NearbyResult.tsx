@@ -1,5 +1,4 @@
-import { useState, type Ref } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, type ReactNode, type Ref } from 'react'
 import { minutesLabel } from '../../../shared/lib/format'
 import type { NearbyCourse } from '../api/nearbyApi'
 
@@ -8,11 +7,13 @@ function NearbyResult({
   aiGenerated,
   resultRef,
   onSelectCourse,
+  action,
 }: {
   courses: NearbyCourse[]
   aiGenerated: boolean
   resultRef?: Ref<HTMLElement>
   onSelectCourse?: (course: NearbyCourse) => void
+  action?: ReactNode
 }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const selectedCourse = courses[selectedIndex] ?? courses[0]
@@ -83,11 +84,7 @@ function NearbyResult({
           </li>
         ))}
       </ol>
-      {selectedCourse.courseId && (
-        <Link className="secondary spaced" to={`/courses/${selectedCourse.courseId}`}>
-          코스 자세히 보기
-        </Link>
-      )}
+      {action}
     </section>
   )
 }
