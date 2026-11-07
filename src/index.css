@@ -848,6 +848,7 @@ input:focus-visible {
   padding-block: 40px;
 }
 
+.login-actions .primary,
 .login-actions .kakao {
   min-height: 52px;
   border-radius: 14px;
@@ -1056,4 +1057,40 @@ div.map-pin {
 .text-button:disabled {
   opacity: 0.5;
   cursor: default;
+}
+
+.auth-form {
+  display: contents;
+}
+
+.kakao.spaced {
+  margin-top: 10px;
+}
+
+.input-status {
+  min-height: 18px;
+  margin: 6px 0 12px;
+  font-size: 12px;
+  color: var(--sub);
+}
+
+.field-hint-block {
+  margin: 14px 0 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--sub);
+}
+
+.input-status a,
+.text-link-row a {
+  color: var(--green);
+  text-decoration: underline;
+}
+
+.text-link-row {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 20px;
+  font-size: 13px;
 }
