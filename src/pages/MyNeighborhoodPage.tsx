@@ -7,30 +7,6 @@ import {
 } from '../features/my/api/myApi'
 import NeighborhoodGrid from '../features/my/components/NeighborhoodGrid'
 import { errorMessage } from '../shared/api/client'
-import { tokenStore } from '../shared/auth/tokenStore'
-
-function GuestIntro() {
-  return (
-    <>
-      <div className="content">
-        <div className="screen-intro">
-          <p className="small-label">조금씩 익숙해지는 우리 동네</p>
-          <h2>
-            나도 이 동네를
-            <br />
-            좋아할 이유가 생겨요.
-          </h2>
-          <p>로그인하면 담은 코스와 다녀온 기록을 모아 볼 수 있어요.</p>
-        </div>
-      </div>
-      <div className="actions">
-        <Link className="primary" to="/login?next=/my">
-          로그인하기 <span aria-hidden="true">→</span>
-        </Link>
-      </div>
-    </>
-  )
-}
 
 function Records() {
   const { data } = useRecords()
@@ -118,19 +94,16 @@ function MemberNeighborhood() {
 }
 
 function MyNeighborhoodPage() {
-  const loggedIn = tokenStore.isLoggedIn()
 
   return (
     <>
       <div className="brand-row">
         <span className="brand">내 한 칸</span>
-        {loggedIn && (
-          <Link to="/my/settings" className="back">
+        <Link to="/my/settings" className="back">
             내 정보
           </Link>
-        )}
       </div>
-      {loggedIn ? <MemberNeighborhood /> : <GuestIntro />}
+      <MemberNeighborhood />
     </>
   )
 }
