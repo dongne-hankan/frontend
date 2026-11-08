@@ -51,7 +51,7 @@ function LoginPage() {
             나의 동네를
             <br />한 칸씩 채워볼까요?
           </h2>
-          <p>담은 코스와 다녀온 기록은 로그인하면 이어서 볼 수 있어요.</p>
+          <p>다녀온 산책 기록은 로그인하면 이어서 볼 수 있어요.</p>
         </div>
         {notice && !error && <p className="notice">{notice}</p>}
 
