@@ -1094,3 +1094,12 @@ div.map-pin {
   margin-top: 20px;
   font-size: 13px;
 }
+
+.row-actions {
+  align-items: center;
+}
+
+.row-actions .text-button {
+  display: inline-flex;
+  align-items: center;
+}

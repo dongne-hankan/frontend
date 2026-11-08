@@ -55,10 +55,14 @@ function RecordPage() {
       {created && (
         <div className="content">
           <div className="screen-intro">
-            <p className="small-label">
-              {created.neighborhood.filledCellCount} / {created.neighborhood.totalCellCount}칸
-            </p>
-            <h2>{created.neighborhood.newlyFilled ? '한 칸이 채워졌어요.' : '기록을 남겼어요.'}</h2>
+            <p className="small-label">동네 {created.neighborhood.visitedRegionCount}곳을 다녀왔어요</p>
+            <h2>
+              {created.neighborhood.newRegion
+                ? '새로운 동네를 만났어요.'
+                : created.neighborhood.newlyFilled
+                  ? '한 칸이 채워졌어요.'
+                  : '기록을 남겼어요.'}
+            </h2>
             <p>이제 추천이 내 기록에 맞춰 달라져요.</p>
           </div>
           <Link className="primary" to="/">

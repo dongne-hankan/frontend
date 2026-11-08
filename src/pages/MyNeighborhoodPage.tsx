@@ -90,7 +90,9 @@ function MemberNeighborhood() {
         <>
           <div className="screen-intro">
             <p className="small-label">
-              {data.grid.filledCellCount} / {data.grid.totalCellCount}칸 채웠어요
+              {data.grid.visitedRegionCount > 0
+                ? `동네 ${data.grid.visitedRegionCount}곳을 다녀왔어요`
+                : '아직 다녀온 동네가 없어요'}
             </p>
             <h2>{data.summary.topTagMessage ?? '첫 번째 칸을 채워 볼까요?'}</h2>
             <p>
@@ -98,11 +100,15 @@ function MemberNeighborhood() {
               안 맞았어요 {data.summary.feelingCounts.NOT_FOR_ME}
             </p>
           </div>
-          <NeighborhoodGrid grid={data.grid} />
-          {data.summary.recordCount === 0 && (
-            <Link className="primary spaced-top" to="/">
-              첫 코스 찾기 <span aria-hidden="true">→</span>
-            </Link>
+          {data.grid.regions.length > 0 ? (
+            <NeighborhoodGrid grid={data.grid} />
+          ) : (
+            <>
+              <p className="course-desc">산책을 다녀와 기록을 남기면 그 동네의 칸이 채워져요.</p>
+              <Link className="primary spaced-top" to="/">
+                첫 산책 찾기 <span aria-hidden="true">→</span>
+              </Link>
+            </>
           )}
           <Records />
         </>

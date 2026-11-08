@@ -40,7 +40,13 @@ export interface RecordValues {
 
 export interface RecordCreated {
   record: VisitRecord
-  neighborhood: { filledCellCount: number; totalCellCount: number; newlyFilled: boolean }
+  neighborhood: {
+    filledCellCount: number
+    totalCellCount: number
+    newlyFilled: boolean
+    visitedRegionCount: number
+    newRegion: boolean
+  }
 }
 
 export interface Neighborhood {
@@ -50,6 +56,7 @@ export interface Neighborhood {
     cells: { regionId: number; tagId: number; filled: boolean; recordCount: number; lastVisitedOn: string | null }[]
     filledCellCount: number
     totalCellCount: number
+    visitedRegionCount: number
   }
   summary: {
     recordCount: number
