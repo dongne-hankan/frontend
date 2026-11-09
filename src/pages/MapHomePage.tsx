@@ -4,9 +4,9 @@ import { useFindOptions, type Duration } from '../features/find/api/findApi'
 import { DEFAULT_CENTER, useNearbyRecommendation, type Point } from '../features/map/api/nearbyApi'
 import { addressOf } from '../features/map/api/placeSearch'
 import NearbyMap from '../features/map/components/NearbyMap'
+import NearbyResult from '../features/map/components/NearbyResult'
 import PlaceSearch from '../features/map/components/PlaceSearch'
 import { errorMessage } from '../shared/api/client'
-import { minutesLabel } from '../shared/lib/format'
 
 const DURATIONS: { code: Duration; label: string }[] = [
   { code: 'MIN_30', label: '30분' },
@@ -208,75 +208,22 @@ function MapHomePage() {
         {recommendation.data?.message && (
           <div className="notice">
             {recommendation.data.message}
-            
           </div>
         )}
 
         {courses.length > 0 && (
-          <section className="section" ref={resultRef}>
-            <div className="label-row">
-              <h3>추천 코스</h3>
-              {recommendation.data?.aiGenerated && <span className="ai-badge">AI가 추천했어요</span>}
-            </div>
-            {courses.map((course, index) => {
-              const body = (
-                <>
-                  <span>
-                    장소 {course.stops.length}곳 · {minutesLabel(course.durationMinutes)}
-                  </span>
-                  <h3>{course.name}</h3>
-                  <p className="course-desc">{course.intro}</p>
-                  <p className="course-quote">{course.reason}</p>
-                </>
-              )
-              // 코스가 하나면 고를 것이 없으니 일반 카드로 보여준다.
-              return courses.length > 1 ? (
-                <button
-                  key={`${course.name}-${index}`}
-                  type="button"
-                  className="course course-select"
-                  aria-pressed={index === selectedIndex}
-                  onClick={() => setSelectedIndex(index)}
-                >
-                  {body}
-                </button>
-              ) : (
-                <div key={`${course.name}-${index}`} className="course">
-                  {body}
-                </div>
-              )
-            })}
-            {selectedCourse && (
-              <ol className="stops">
-                {selectedCourse.stops.map((stop) => (
-                  <li className="stop" key={stop.order}>
-                    <span className="stop-number">{stop.order}</span>
-                    <div>
-                      <div className="stop-title">
-                        {stop.name}
-                        <span>{stop.stayMinutes}분</span>
-                      </div>
-                      <p>{stop.address}</p>
-                      <p>{stop.reason}</p>
-                      {stop.moveMinutesToNext !== null && <p>다음 장소까지 걸어서 약 {stop.moveMinutesToNext}분</p>}
-                      {stop.kakaoPlaceUrl && (
-                        <div className="link-row">
-                          <a className="place-link" href={stop.kakaoPlaceUrl} target="_blank" rel="noopener">
-                            카카오맵에서 보기 ↗
-                          </a>
-                        </div>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            )}
-            {selectedCourse && (
+          <NearbyResult
+            key={recommendation.submittedAt}
+            courses={courses}
+            aiGenerated={recommendation.data?.aiGenerated ?? false}
+            resultRef={resultRef}
+            onSelectCourse={(course) => setSelectedIndex(courses.indexOf(course))}
+            action={
               <button type="button" className="secondary spaced" onClick={recordWalk}>
                 다녀왔어요 ✓
               </button>
-            )}
-          </section>
+            }
+          />
         )}
       </form>
       <div className="actions">

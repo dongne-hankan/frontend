@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
+import { useRef } from 'react'
 import { postData } from '../../../shared/api/client'
 import type { Duration } from '../../find/api/findApi'
 
@@ -88,8 +89,20 @@ function mockRecommendation(request: NearbyRequest): Promise<NearbyRecommendatio
 }
 
 export function useNearbyRecommendation() {
-  return useMutation({
+  const inFlight = useRef(false)
+  const mutation = useMutation({
     mutationFn: (request: NearbyRequest) =>
       useMock ? mockRecommendation(request) : postData<NearbyRecommendation>('/api/find/nearby', request),
+    onSettled: () => {
+      inFlight.current = false
+    },
   })
+  // 로딩 표시가 화면에 반영되기 전에 다시 눌러도 카카오·AI 호출이 두 번 나가지 않게 막는다.
+  const mutate: typeof mutation.mutate = (request, options) => {
+    if (!inFlight.current) {
+      inFlight.current = true
+      mutation.mutate(request, options)
+    }
+  }
+  return { ...mutation, mutate }
 }
